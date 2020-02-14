@@ -1,6 +1,6 @@
 ﻿Public Class mt_Data
     Public Class DataEntryUpdateAndDelete
-        Public Sub DeleteAllCallListTableRecords()
+        Public Sub DELETE_AllCallListTableRecords()
             Try
 
                 Dim ehq As New EH_DataUtilities.EH_QueryBuilder

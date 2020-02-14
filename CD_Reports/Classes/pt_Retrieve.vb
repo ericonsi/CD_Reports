@@ -1,7 +1,25 @@
 ﻿Public Class pt_Retrieve
-    Public Shared Function RETRIEVE_SelectedDepartmentID() As Integer
+    Public Shared Function RETRIEVE_ArrayOfSelectedReportComponentsFromFrmMain() As Boolean()
 
-        'Return frmMain.cmbDepartment.SelectedValue
+        Dim ComponentsArray() As Boolean = {False, False, False, False}
+
+        If frmMain1.chk3MonthDue.Checked Then
+            ComponentsArray(0) = True
+        End If
+
+        If frmMain1.chk6MonthDue.Checked Then
+            ComponentsArray(1) = True
+        End If
+
+        If frmMain1.chkMDDue.Checked Then
+            ComponentsArray(2) = True
+        End If
+
+        If frmMain1.chkOtherReminderInfo.Checked Then
+            ComponentsArray(3) = True
+        End If
+
+        Return ComponentsArray
 
     End Function
     Public Shared Function RETRIEVE_SelectedMonthIDfromFrmMain() As Integer

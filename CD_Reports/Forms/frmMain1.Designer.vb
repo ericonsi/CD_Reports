@@ -25,8 +25,9 @@ Partial Class frmMain1
         Me.chk3MonthDue = New System.Windows.Forms.CheckBox()
         Me.chk6MonthDue = New System.Windows.Forms.CheckBox()
         Me.chkMDDue = New System.Windows.Forms.CheckBox()
-        Me.CheckBox6 = New System.Windows.Forms.CheckBox()
+        Me.chkOtherReminderInfo = New System.Windows.Forms.CheckBox()
         Me.btnGo = New System.Windows.Forms.Button()
+        Me.pnlReportComponents = New System.Windows.Forms.Panel()
         Me.SuspendLayout()
         '
         'chk3MonthDue
@@ -34,9 +35,9 @@ Partial Class frmMain1
         Me.chk3MonthDue.AutoSize = True
         Me.chk3MonthDue.Location = New System.Drawing.Point(66, 70)
         Me.chk3MonthDue.Name = "chk3MonthDue"
-        Me.chk3MonthDue.Size = New System.Drawing.Size(110, 17)
+        Me.chk3MonthDue.Size = New System.Drawing.Size(147, 17)
         Me.chk3MonthDue.TabIndex = 0
-        Me.chk3MonthDue.Text = "Three Month Due"
+        Me.chk3MonthDue.Text = "Three Month Screen Due"
         Me.chk3MonthDue.UseVisualStyleBackColor = True
         '
         'chk6MonthDue
@@ -59,35 +60,43 @@ Partial Class frmMain1
         Me.chkMDDue.Text = "MD Appt Due"
         Me.chkMDDue.UseVisualStyleBackColor = True
         '
-        'CheckBox6
+        'chkOtherReminderInfo
         '
-        Me.CheckBox6.AutoSize = True
-        Me.CheckBox6.Location = New System.Drawing.Point(66, 157)
-        Me.CheckBox6.Name = "CheckBox6"
-        Me.CheckBox6.Size = New System.Drawing.Size(121, 17)
-        Me.CheckBox6.TabIndex = 5
-        Me.CheckBox6.Text = "Other Reminder Info"
-        Me.CheckBox6.UseVisualStyleBackColor = True
+        Me.chkOtherReminderInfo.AutoSize = True
+        Me.chkOtherReminderInfo.Location = New System.Drawing.Point(66, 157)
+        Me.chkOtherReminderInfo.Name = "chkOtherReminderInfo"
+        Me.chkOtherReminderInfo.Size = New System.Drawing.Size(121, 17)
+        Me.chkOtherReminderInfo.TabIndex = 5
+        Me.chkOtherReminderInfo.Text = "Other Reminder Info"
+        Me.chkOtherReminderInfo.UseVisualStyleBackColor = True
         '
         'btnGo
         '
-        Me.btnGo.Location = New System.Drawing.Point(104, 198)
+        Me.btnGo.Location = New System.Drawing.Point(94, 210)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(75, 23)
         Me.btnGo.TabIndex = 6
         Me.btnGo.Text = "Go!"
         Me.btnGo.UseVisualStyleBackColor = True
         '
+        'pnlReportComponents
+        '
+        Me.pnlReportComponents.Location = New System.Drawing.Point(40, 51)
+        Me.pnlReportComponents.Name = "pnlReportComponents"
+        Me.pnlReportComponents.Size = New System.Drawing.Size(184, 141)
+        Me.pnlReportComponents.TabIndex = 7
+        '
         'frmMain1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(283, 285)
+        Me.ClientSize = New System.Drawing.Size(270, 285)
         Me.Controls.Add(Me.btnGo)
-        Me.Controls.Add(Me.CheckBox6)
+        Me.Controls.Add(Me.chkOtherReminderInfo)
         Me.Controls.Add(Me.chkMDDue)
         Me.Controls.Add(Me.chk6MonthDue)
         Me.Controls.Add(Me.chk3MonthDue)
+        Me.Controls.Add(Me.pnlReportComponents)
         Me.Name = "frmMain1"
         Me.Text = "frmMain1"
         Me.ResumeLayout(False)
@@ -98,6 +107,7 @@ Partial Class frmMain1
     Friend WithEvents chk3MonthDue As CheckBox
     Friend WithEvents chk6MonthDue As CheckBox
     Friend WithEvents chkMDDue As CheckBox
-    Friend WithEvents CheckBox6 As CheckBox
+    Friend WithEvents chkOtherReminderInfo As CheckBox
     Friend WithEvents btnGo As Button
+    Friend WithEvents pnlReportComponents As Panel
 End Class
