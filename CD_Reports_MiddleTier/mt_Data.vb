@@ -88,7 +88,7 @@ Public Class mt_Data
 
                     ehq.ADD_TO_SELECT("ClientID")
                     ehq.ASSIGN_FROM_STATEMENT("tblClients")
-                    ehq.ADD_TO_WHERE("ClientID>=28")
+                    ehq.ADD_TO_WHERE("ClientID>=29")
 
                 Case 2
                 Case 3
