@@ -1,66 +1,137 @@
-﻿Public Class mt_Data
-    Public Class DataEntryUpdateAndDelete
-        Public Sub DELETE_AllCallListTableRecords()
-            Try
+﻿
+Public Class mt_Data
+    Public Sub DELETE_AllCallListTableRecords()
+        Try
 
-                Dim ehq As New EH_DataUtilities.EH_QueryBuilder
-                ehq.ASSIGN_FIRST_LINE("Delete * from tblMasterCallList_HC")
-                ehq.EXECUTE_NONQUERY()
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+            ehq.ASSIGN_FIRST_LINE("Delete * from tblMasterCallList_HC")
+            ehq.EXECUTE_NONQUERY()
 
-            Catch ex As Exception
+        Catch ex As Exception
 
-                Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
-                HandleStandardException.HANDLE_EXCEPTION(ex, True, "The table is not empty.")
+            Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
+            HandleStandardException.HANDLE_EXCEPTION(ex, True, "The table is not empty.")
 
-            End Try
-        End Sub
-        Public Sub UpdateBenchmark(iIndicatorID As Integer, sOldValue As String, sNewValue As String)
-            Try
+        End Try
+    End Sub
+    Public Sub CALL_PROCEDURE_iterateThroughComponents(ReportComponents As Boolean())
+        Try
 
-                'Dim ehq As New EH_DataUtilities.EH_QueryBuilder
-                ' ehq.ASSIGN_FIRST_LINE("UPDATE tblIndicators Set Indicator = '" & sNewValue & "'")
-                ' ehq.ADD_TO_WHERE("IndicatorID = " & iIndicatorID)
-                ' ehq.EXECUTE_NONQUERY()
+            Dim dt As DataTable
+            Dim i As Integer = 0
 
-            Catch ex As Exception
+            For Each rc In ReportComponents
+                If rc Then
+                    dt = CREATE_DataTableWithComponentInfo(i)
+                    ADD_OR_UPDATE_DataTableRecordsToReportTable(dt)
+                End If
+                i = i + 1
+            Next
 
-                Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
-                HandleStandardException.HANDLE_EXCEPTION(ex, True, "The indicator is not updated")
+        Catch ex As Exception
 
-            End Try
-        End Sub
-        Public Sub AddBenchmark()
-            Try
+            Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
+            HandleStandardException.HANDLE_EXCEPTION(ex, True, "")
 
-                Dim ehq As New EH_DataUtilities.EH_QueryBuilder
-                ' ehq.ASSIGN_FIRST_LINE("UPDATE tblIndicators Set Indicator = '" & sNewValue & "'")
-                ' ehq.ADD_TO_WHERE("IndicatorID = " & iIndicatorID)
-                ' ehq.EXECUTE_NONQUERY()
+        End Try
+    End Sub
+    Public Function CREATE_DataTableWithComponentInfo(ReportComponent As Integer) As DataTable
+        Try
 
-            Catch ex As Exception
+            Dim dt As DataTable
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
 
-                Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
-                HandleStandardException.HANDLE_EXCEPTION(ex, True, "The indicator is not added")
+            ehq = CREATE_EHQ_ForSpecifiedComponent(ReportComponent)
+            dt = ehq.ATTACH_TO_DATATABLE
+            Return dt
 
-            End Try
-        End Sub
-        Public Sub BuildNewMonth(SelectedMonthID As Integer)
+        Catch ex As Exception
 
-            Try
+            Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
+            HandleStandardException.HANDLE_EXCEPTION(ex, True, "")
 
-                Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+        End Try
+    End Function
+    Public Sub ADD_OR_UPDATE_DataTableRecordsToReportTable(dt As DataTable)
+        Try
 
-                ehq.ASSIGN_FIRST_LINE("INSERT INTO tblMonthlyBenchmarks ( IndicatorID, MonthID, TargetValue, Details, bOptional )" &
-                        "  Select tblIndicators.IndicatorID, " & SelectedMonthID & ", tblIndicators.Projected, tblIndicators.Notes, tblIndicators.bOptional")
-                ehq.ASSIGN_FROM_STATEMENT("tblDepartments INNER Join (tblIndicators INNER Join tblPrograms On tblIndicators.ProgramID = tblPrograms.ProgramID) ON tblDepartments.DepartmentID = tblPrograms.DepartmentID")
-                ehq.ADD_TO_WHERE("tblDepartments.include = 'True' And tblIndicators.Include = 'True' And tblPrograms.Include = 'True'")
-                ehq.EXECUTE_NONQUERY()
-                MessageBox.Show("Done.")
+            Dim bClientIsAlreadyInReport As Boolean
 
-            Catch ex As Exception
-                Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
-                HandleStandardException.HANDLE_EXCEPTION(ex, True, "The month build has failed.")
-            End Try
-        End Sub
-    End Class
+            For Each r In dt.Rows
+                bClientIsAlreadyInReport = DETERMINE_IfClientIsAlreadyInReport(r(0), r(1), r(2))
+                If Not bClientIsAlreadyInReport Then
+                    ADD_Client(r)
+                Else
+                    UPDATE_Client(r)
+                End If
+            Next
+
+        Catch ex As Exception
+
+            Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
+            HandleStandardException.HANDLE_EXCEPTION(ex, True, "")
+
+        End Try
+    End Sub
+    Public Function CREATE_EHQ_ForSpecifiedComponent(RecordComponent As Integer) As EH_DataUtilities.EH_QueryBuilder
+        Try
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+
+            Select Case RecordComponent
+                Case 0
+
+
+
+                Case 1
+                Case 2
+                Case 3
+            End Select
+
+            Return ehq
+
+        Catch ex As Exception
+
+            Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
+            HandleStandardException.HANDLE_EXCEPTION(ex, True, "")
+
+        End Try
+    End Function
+    Public Function DETERMINE_IfClientIsAlreadyInReport(sLast As String, sFirst As String, dDOB As Date) As Boolean
+        Try
+
+            Dim ClientIsInReport As Boolean = False
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+
+            Return ClientIsInReport
+        Catch ex As Exception
+
+            Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
+            HandleStandardException.HANDLE_EXCEPTION(ex, True, "")
+
+        End Try
+    End Function
+    Public Sub ADD_Client(r As DataRow)
+        Try
+
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+
+        Catch ex As Exception
+
+            Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
+            HandleStandardException.HANDLE_EXCEPTION(ex, True, "")
+
+        End Try
+    End Sub
+    Public Sub UPDATE_Client(r As DataRow)
+        Try
+
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+
+        Catch ex As Exception
+
+            Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
+            HandleStandardException.HANDLE_EXCEPTION(ex, True, "")
+
+        End Try
+    End Sub
 End Class

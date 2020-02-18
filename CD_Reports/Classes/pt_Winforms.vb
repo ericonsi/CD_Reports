@@ -1,5 +1,6 @@
 ﻿Imports CD_Reports.pt_Data.GetSourceQueriesForDGVsAndCombos
 Imports EH_ExceptionTrapping.EH_Exceptions
+Imports CD_Reports.pt_Retrieve
 Public Class pt_Winforms
     Public Sub Assign_SourceQuery_To_dgvMonthlyBenchmarks()
 
@@ -11,6 +12,16 @@ Public Class pt_Winforms
         SetValueColumnProperties()
 
 
+
+    End Sub
+    Public Sub CALL_PROCEDURE_CreateList()
+
+        Dim de As New CD_Reports_MiddleTier.mt_Data
+        Dim ReportComponents As Boolean()
+
+        de.DELETE_AllCallListTableRecords()
+        ReportComponents = RETRIEVE_ArrayOfSelectedReportComponentsFromFrmMain()
+        de.CALL_PROCEDURE_iterateThroughComponents(ReportComponents)
 
     End Sub
     Public Sub Assign_SourceQuery_To_cmbMonths(c As ComboBox)
