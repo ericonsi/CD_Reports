@@ -4,7 +4,7 @@ Public Class mt_Data
         Try
 
             Dim ehq As New EH_DataUtilities.EH_QueryBuilder
-            ehq.ASSIGN_FIRST_LINE("Delete * from tblMasterCallList_HC")
+            ehq.ASSIGN_FIRST_LINE("Delete from tblMasterClientCallList_HC")
             ehq.EXECUTE_NONQUERY()
 
         Catch ex As Exception
@@ -57,8 +57,8 @@ Public Class mt_Data
 
             Dim bClientIsAlreadyInReport As Boolean
 
-            For Each r In dt.Rows
-                bClientIsAlreadyInReport = DETERMINE_IfClientIsAlreadyInReport(r(0), r(1), r(2))
+            For Each r As DataRow In dt.Rows
+                bClientIsAlreadyInReport = DETERMINE_IfClientIsAlreadyInReport(r("ClientID"))
                 If Not bClientIsAlreadyInReport Then
                     ADD_Client(r)
                 Else
@@ -80,9 +80,16 @@ Public Class mt_Data
             Select Case RecordComponent
                 Case 0
 
-
+                    ehq.ADD_TO_SELECT("ClientID")
+                    ehq.ASSIGN_FROM_STATEMENT("tblClients")
+                    ehq.ADD_TO_WHERE("ClientID>=30")
 
                 Case 1
+
+                    ehq.ADD_TO_SELECT("ClientID")
+                    ehq.ASSIGN_FROM_STATEMENT("tblClients")
+                    ehq.ADD_TO_WHERE("ClientID>=28")
+
                 Case 2
                 Case 3
             End Select
@@ -96,13 +103,22 @@ Public Class mt_Data
 
         End Try
     End Function
-    Public Function DETERMINE_IfClientIsAlreadyInReport(sLast As String, sFirst As String, dDOB As Date) As Boolean
+    Public Function DETERMINE_IfClientIsAlreadyInReport(CID As Integer) As Boolean
         Try
 
             Dim ClientIsInReport As Boolean = False
             Dim ehq As New EH_DataUtilities.EH_QueryBuilder
 
+            ehq.ADD_TO_SELECT("ClientID")
+            ehq.ASSIGN_FROM_STATEMENT("tblMasterClientCallList_HC")
+            ehq.ADD_TO_WHERE("ClientID = " & CID)
+
+            If ehq.RECORD_COUNT > 0 Then
+                ClientIsInReport = True
+            End If
+
             Return ClientIsInReport
+
         Catch ex As Exception
 
             Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
@@ -114,6 +130,9 @@ Public Class mt_Data
         Try
 
             Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+
+            ehq.ASSIGN_FIRST_LINE("INSERT INTO tblMasterClientCallList_HC (ClientID) VALUES(" & r("ClientID") & ")")
+            ehq.EXECUTE_NONQUERY()
 
         Catch ex As Exception
 
