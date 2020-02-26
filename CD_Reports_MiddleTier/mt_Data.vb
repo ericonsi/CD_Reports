@@ -80,9 +80,10 @@ Public Class mt_Data
             Select Case RecordComponent
                 Case 0
 
-                    ehq.ADD_TO_SELECT("ClientID")
-                    ehq.ASSIGN_FROM_STATEMENT("tblClients")
-                    ehq.ADD_TO_WHERE("ClientID>=30")
+                    ehq.ADD_TO_SELECT(" tblServices.ClientID")
+                    ehq.ASSIGN_FROM_STATEMENT("tblServices INNER Join tblVitalSigns On tblServices.ServiceID = tblVitalSigns.ServiceID")
+                    ehq.ADD_TO_WHERE("(((tblServices.Program) ='HealthConnect') AND ((tblVitalSigns.Type)='blood pressure' Or (tblVitalSigns.Type)='A1C') AND ((tblVitalSigns.Stage)='baseline') AND ((DateDiff(Month,[date of service],GetDate()))>=2))")
+                    ehq.ADD_TO_GROUPBY("GROUP BY tblServices.ClientID")
 
                 Case 1
 
