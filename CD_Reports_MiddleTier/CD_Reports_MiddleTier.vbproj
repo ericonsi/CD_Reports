@@ -141,6 +141,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ReportComponents\IReportComponent.vb" />
+    <Compile Include="ReportComponents\ReportComponentUtilities.vb" />
+    <Compile Include="ReportComponents\ReportComponent_3MonthScreenDue.vb" />
+    <Compile Include="ReportComponents\ReportComponent_6MonthScreenDue.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">

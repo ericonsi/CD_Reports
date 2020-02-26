@@ -14,18 +14,16 @@ Public Class mt_Data
 
         End Try
     End Sub
-    Public Sub CALL_PROCEDURE_iterateThroughComponents(ReportComponents As Boolean())
+    Public Sub CALL_PROCEDURE_iterateThroughComponents(RComponents As List(Of IReportComponent))
         Try
 
             Dim dt As DataTable
-            Dim i As Integer = 0
 
-            For Each rc In ReportComponents
-                If rc Then
-                    dt = CREATE_DataTableWithComponentInfo(i)
-                    ADD_OR_UPDATE_DataTableRecordsToReportTable(dt)
-                End If
-                i = i + 1
+            For Each rc In RComponents
+
+                dt = CREATE_DataTableWithComponentInfo(rc)
+                UPDATE_DataTableRecordsWithReportComponentInfo(dt, rc)
+
             Next
 
         Catch ex As Exception
@@ -35,13 +33,13 @@ Public Class mt_Data
 
         End Try
     End Sub
-    Public Function CREATE_DataTableWithComponentInfo(ReportComponent As Integer) As DataTable
+    Public Function CREATE_DataTableWithComponentInfo(RComponent As IReportComponent) As DataTable
         Try
 
             Dim dt As DataTable
             Dim ehq As New EH_DataUtilities.EH_QueryBuilder
 
-            ehq = CREATE_EHQ_ForSpecifiedComponent(ReportComponent)
+            ehq = RComponent.GetSelectQuery()
             dt = ehq.ATTACH_TO_DATATABLE
             Return dt
 
@@ -52,7 +50,7 @@ Public Class mt_Data
 
         End Try
     End Function
-    Public Sub ADD_OR_UPDATE_DataTableRecordsToReportTable(dt As DataTable)
+    Public Sub UPDATE_DataTableRecordsWithReportComponentInfo(dt As DataTable, rc As IReportComponent)
         Try
 
             Dim bClientIsAlreadyInReport As Boolean
@@ -61,9 +59,10 @@ Public Class mt_Data
                 bClientIsAlreadyInReport = DETERMINE_IfClientIsAlreadyInReport(r("ClientID"))
                 If Not bClientIsAlreadyInReport Then
                     ADD_Client(r)
-                Else
-                    UPDATE_Client(r)
                 End If
+
+                rc.GetUpdateQuery(r("clientID")).EXECUTE_NONQUERY()
+
             Next
 
         Catch ex As Exception
@@ -83,7 +82,7 @@ Public Class mt_Data
                     ehq.ADD_TO_SELECT(" tblServices.ClientID")
                     ehq.ASSIGN_FROM_STATEMENT("tblServices INNER Join tblVitalSigns On tblServices.ServiceID = tblVitalSigns.ServiceID")
                     ehq.ADD_TO_WHERE("(((tblServices.Program) ='HealthConnect') AND ((tblVitalSigns.Type)='blood pressure' Or (tblVitalSigns.Type)='A1C') AND ((tblVitalSigns.Stage)='baseline') AND ((DateDiff(Month,[date of service],GetDate()))>=2))")
-                    ehq.ADD_TO_GROUPBY("GROUP BY tblServices.ClientID")
+                    ehq.ADD_TO_GROUPBY("tblServices.ClientID")
 
                 Case 1
 
