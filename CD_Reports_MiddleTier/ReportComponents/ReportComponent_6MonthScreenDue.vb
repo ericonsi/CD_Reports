@@ -3,7 +3,7 @@ Public Class ReportComponent_6MonthScreenDue
     Implements IReportComponent
 
     Function GetOrdinal() As Integer Implements IReportComponent.GetOrdinal
-        Return 0
+        Return 1
     End Function
     Function GetDescription() As String Implements IReportComponent.GetDescription
         Return "Six Month Screen Due"

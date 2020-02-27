@@ -5,6 +5,7 @@
         Dim rc As New List(Of IReportComponent)
         Dim rc_three As New ReportComponent_3MonthScreenDue
         Dim rc_six As New ReportComponent_6MonthScreenDue
+        Dim rc_link As New ReportComponent_Linkages
         Dim i As Integer = 0
 
         For Each fc In FormChoices
@@ -16,6 +17,9 @@
 
                     Case 1
                         rc.Add(rc_six)
+
+                    Case 2
+                        rc.Add(rc_link)
 
                 End Select
             End If

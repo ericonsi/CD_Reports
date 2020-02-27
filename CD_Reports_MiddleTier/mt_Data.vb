@@ -72,37 +72,6 @@ Public Class mt_Data
 
         End Try
     End Sub
-    Public Function CREATE_EHQ_ForSpecifiedComponent(RecordComponent As Integer) As EH_DataUtilities.EH_QueryBuilder
-        Try
-            Dim ehq As New EH_DataUtilities.EH_QueryBuilder(GetHostSqlServer())
-
-            Select Case RecordComponent
-                Case 0
-
-                    ehq.ADD_TO_SELECT(" tblServices.ClientID")
-                    ehq.ASSIGN_FROM_STATEMENT("tblServices INNER Join tblVitalSigns On tblServices.ServiceID = tblVitalSigns.ServiceID")
-                    ehq.ADD_TO_WHERE("(((tblServices.Program) ='HealthConnect') AND ((tblVitalSigns.Type)='blood pressure' Or (tblVitalSigns.Type)='A1C') AND ((tblVitalSigns.Stage)='baseline') AND ((DateDiff(Month,[date of service],GetDate()))>=2))")
-                    ehq.ADD_TO_GROUPBY("tblServices.ClientID")
-
-                Case 1
-
-                    ehq.ADD_TO_SELECT("ClientID")
-                    ehq.ASSIGN_FROM_STATEMENT("tblClients")
-                    ehq.ADD_TO_WHERE("ClientID>=29")
-
-                Case 2
-                Case 3
-            End Select
-
-            Return ehq
-
-        Catch ex As Exception
-
-            Dim HandleStandardException As New EH_ExceptionTrapping.EH_Exceptions.Exception_Handlers.StandardHandler
-            HandleStandardException.HANDLE_EXCEPTION(ex, True, "")
-
-        End Try
-    End Function
     Public Function DETERMINE_IfClientIsAlreadyInReport(CID As Integer) As Boolean
         Try
 

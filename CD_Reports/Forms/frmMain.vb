@@ -337,6 +337,10 @@ Public Class frmMain
         End Try
 
     End Sub
+
+    Private Sub radSelectIndicators_CheckedChanged(sender As Object, e As EventArgs) Handles radSelectIndicators.CheckedChanged
+
+    End Sub
 End Class
 'Still to do: When a user uses enable editing a few problems occur: 1) the indicator updates to sNewValue which is whatver value was last selected, even if it isn't 
 ' the new indicator vale
