@@ -20,6 +20,7 @@ Public Class ReportComponent_3MonthScreenDue
                             " From tblServices INNER Join tblVitalSigns On tblServices.ServiceID = tblVitalSigns.ServiceID" &
                             " Where (tblVitalSigns.Type ='blood pressure' Or tblVitalSigns.Type='A1C')  AND tblServices.Program='healthconnect' AND tblVitalSigns.Stage='3 month' AND tblServices.clientID = tblServices.clientID)")
         ehq.ADD_TO_GROUPBY("tblServices.ClientID")
+
         Return ehq
 
     End Function
