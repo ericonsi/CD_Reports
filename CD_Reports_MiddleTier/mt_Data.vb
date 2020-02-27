@@ -1,9 +1,9 @@
-﻿
+﻿Imports CD_Reports_MiddleTier.AppSetter
 Public Class mt_Data
     Public Sub DELETE_AllCallListTableRecords()
         Try
 
-            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder(GetHostSqlServer())
             ehq.ASSIGN_FIRST_LINE("Delete from tblMasterClientCallList_HC")
             ehq.EXECUTE_NONQUERY()
 
@@ -37,7 +37,7 @@ Public Class mt_Data
         Try
 
             Dim dt As DataTable
-            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder(GetHostSqlServer())
 
             ehq = RComponent.GetSelectQuery()
             dt = ehq.ATTACH_TO_DATATABLE
@@ -74,7 +74,7 @@ Public Class mt_Data
     End Sub
     Public Function CREATE_EHQ_ForSpecifiedComponent(RecordComponent As Integer) As EH_DataUtilities.EH_QueryBuilder
         Try
-            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder(GetHostSqlServer())
 
             Select Case RecordComponent
                 Case 0
@@ -107,7 +107,7 @@ Public Class mt_Data
         Try
 
             Dim ClientIsInReport As Boolean = False
-            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder(GetHostSqlServer())
 
             ehq.ADD_TO_SELECT("ClientID")
             ehq.ASSIGN_FROM_STATEMENT("tblMasterClientCallList_HC")
@@ -129,7 +129,7 @@ Public Class mt_Data
     Public Sub ADD_Client(r As DataRow)
         Try
 
-            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder(GetHostSqlServer())
 
             ehq.ASSIGN_FIRST_LINE("INSERT INTO tblMasterClientCallList_HC (ClientID) VALUES(" & r("ClientID") & ")")
             ehq.EXECUTE_NONQUERY()
@@ -144,7 +144,7 @@ Public Class mt_Data
     Public Sub UPDATE_Client(r As DataRow)
         Try
 
-            Dim ehq As New EH_DataUtilities.EH_QueryBuilder
+            Dim ehq As New EH_DataUtilities.EH_QueryBuilder(GetHostSqlServer())
 
         Catch ex As Exception
 
