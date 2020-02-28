@@ -148,6 +148,7 @@
     <Compile Include="ReportComponents\ReportComponent_3MonthScreenDue.vb" />
     <Compile Include="ReportComponents\ReportComponent_6MonthScreenDue.vb" />
     <Compile Include="ReportComponents\ReportComponent_Linkages.vb" />
+    <Compile Include="ReportComponents\ReportComponent_RemindersList.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
