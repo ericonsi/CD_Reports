@@ -6,6 +6,8 @@
         Dim rc_three As New ReportComponent_3MonthScreenDue
         Dim rc_six As New ReportComponent_6MonthScreenDue
         Dim rc_link As New ReportComponent_Linkages
+        Dim rc_reminders As New ReportComponent_RemindersList
+
         Dim i As Integer = 0
 
         For Each fc In FormChoices
@@ -20,6 +22,9 @@
 
                     Case 2
                         rc.Add(rc_link)
+
+                    Case 3
+                        rc.Add(rc_reminders)
 
                 End Select
             End If

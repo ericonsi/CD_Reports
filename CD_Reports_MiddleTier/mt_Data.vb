@@ -20,11 +20,12 @@ Public Class mt_Data
             Dim dt As DataTable
 
             For Each rc In RComponents
-
                 dt = CREATE_DataTableWithComponentInfo(rc)
-                UPDATE_DataTableRecordsWithReportComponentInfo(dt, rc)
-
+                UPDATE_MasterClientlistWithReportComponentInfo(dt, rc)
             Next
+
+            UPDATE_MasterClientListWithClubHCMembershipStatus()
+
 
         Catch ex As Exception
 
@@ -50,7 +51,7 @@ Public Class mt_Data
 
         End Try
     End Function
-    Public Sub UPDATE_DataTableRecordsWithReportComponentInfo(dt As DataTable, rc As IReportComponent)
+    Public Sub UPDATE_MasterClientlistWithReportComponentInfo(dt As DataTable, rc As IReportComponent)
         Try
 
             Dim bClientIsAlreadyInReport As Boolean
@@ -61,8 +62,23 @@ Public Class mt_Data
                     ADD_Client(r)
                 End If
 
-                rc.GetUpdateQuery(r("clientID")).EXECUTE_NONQUERY()
+                'This is messy and prone to errors.  The original ReportComponent classes only needed clientID for the update query - this
+                ' occurred in order to hande the reminder class which needs more than the clientID.  Then I got too lazy to implement a design pattern.
 
+                If rc.GetDescription = "Reminder List Items" Then
+
+                    Dim rm As New Reminder
+                    rm.ReminderDetail = r("Details")
+                    rm.ReminderItem = r("Item")
+                    rm.ClientID = r("ClientID")
+
+                    Dim rc_rm As New ReportComponent_RemindersList
+
+                    rc_rm.GetUpdateQuery(rm).EXECUTE_NONQUERY()
+
+                Else
+                    rc.GetUpdateQuery(r("clientID")).EXECUTE_NONQUERY()
+                End If
             Next
 
         Catch ex As Exception
@@ -110,10 +126,13 @@ Public Class mt_Data
 
         End Try
     End Sub
-    Public Sub UPDATE_Client(r As DataRow)
+    Public Sub UPDATE_MasterClientListWithClubHCMembershipStatus()
+
         Try
 
             Dim ehq As New EH_DataUtilities.EH_QueryBuilder(GetHostSqlServer())
+            ehq.ASSIGN_FIRST_LINE("")
+
 
         Catch ex As Exception
 
